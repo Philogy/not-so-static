@@ -42,7 +42,7 @@ Conceptually this lets us create a simple write-once, read-once 1-bit store:
 To store a `0` you simply do nothing (default value), to store a `1` you `SLOAD` a given slot.
 
 To read the value you `SLOAD` the same slot measuring the gas used. Gas use of less than 2,100 gas
-indicates a arm read meaning the value is `1`, >2,100 indicates a cold read and therefore `0`.
+indicates a warm read meaning the value is `1`, >2,100 indicates a cold read and therefore `0`.
 
 Note that because _writing_ relies on `SLOAD`-ing, _reading a bit_ is a one-time, destructive operation,
 effectively overwriting the previous value with `1`.
@@ -74,7 +74,7 @@ Interpretation
 ```
 
 We read the counter by walking through the slots until we read a non-zero value, this inherently
-increases the counter by one every-time we read but it gives what we need: a mutable, fixed location
+increases the counter by one every time we read but it gives what we need: a mutable, fixed location
 value.
 
 Combining the two we now have an arbitrary mutable & readable value. Our counter stores the index
