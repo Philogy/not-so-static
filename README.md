@@ -86,3 +86,18 @@ where the current value lives:
     1. We read (and therefore increment) the counter to get the slot
     2. We destructively read the from the current slot saving the value
     3. We re-write the retrieved value in `slot+1`
+
+## Security Considerations
+
+This library is a proof of concept and should not be used in production. The main issue
+with this method is the ability to arbitrarily set any not-so-static slot, even if
+the `set` method is access controlled. Below are some of the ways to arbitrarily set
+not-so-static slots.
+
+- [Access list transaction type](https://eips.ethereum.org/EIPS/eip-2930)
+- Any exposed function with arbitrary storage access, such as
+  "[extsload](https://github.com/Uniswap/v4-core/blob/a7cf038cd568801a79a9b4cf92cd5b52c95c8585/src/Extsload.sol#L18-L39)"
+
+Another risk of this method is the possibility of a future Ethereum fork changing the
+gas costs of relevant operations. A change to the cost of the `sload` operation might
+completely break this library.
